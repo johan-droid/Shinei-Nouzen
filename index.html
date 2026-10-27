@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHINEI NOUZEN — Voices of the Chord | 86 -Eighty Six- Requiem</title>
+  <meta name="description" content="A cinematic requiem for Shinei Nouzen — the Undertaker of the Eighty-Six — set to Hiroyuki Sawano's 'Voices of the Chord'. 576 names. One promise. One final destination." />
+  <meta name="theme-color" content="#0b0e14" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b0e14'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='34' font-weight='bold' fill='%23ff334b' text-anchor='middle'%3E86%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=JetBrains+Mono:wght@300;400;500;700;800&family=Noto+Serif+JP:wght@300;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+  /* ══════════════ TOKENS ══════════════ */
+  :root{
+    --ash:#0b0e14; --ash2:#12161f; --panel:#141924; --line:#262d3b;
+    --ink:#e9edf5; --dim:#8a93a6; --faint:#5a6577;
+    --red:#ff334b; --red-deep:#a61327; --ember:#ffae57; --blue:#7cc7ff;
+    --serif:'Cormorant Garamond',serif; --disp:'Cinzel',serif;
+    --mono:'JetBrains Mono',monospace; --jp:'Noto Serif JP',serif;
+    --pad-y:clamp(96px, 13vh, 168px);
+    --pad-x:clamp(22px, 8vw, 128px);
+    /* material system */
+    --glass:rgba(19,24,36,.5); --glass-warm:rgba(30,16,20,.45);
+    --gbrd:rgba(148,168,201,.14); --gbrd-2:rgba(148,168,201,.24);
+    --r-s:4px; --r:8px;
+    --e1:0 2px 10px rgba(0,0,0,.35);
+    --e2:0 10px 32px rgba(0,0,0,.45);
+    --e3:0 28px 68px rgba(0,0,0,.62);
+    --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth; overflow-x:clip}
+  body{
+    background:var(--ash); color:var(--ink); font-family:var(--serif);
+    overflow-x:hidden; line-height:1.65;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--red); color:#fff}
+  .mono{font-family:var(--mono)}
+  .red{color:var(--red)} .dim{color:var(--faint)}
+  a{color:inherit; text-decoration:none}
+  b{font-weight:700}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--ash)}
+  ::-webkit-scrollbar-thumb{background:#2a3140}
+  ::-webkit-scrollbar-thumb:hover{background:var(--red-deep)}
+
+  /* ══════════════ GATE ══════════════ */
+  .gate{
+    position:fixed; inset:0; z-index:2000; background:var(--ash);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    transition:opacity 1.2s ease, visibility 1.2s;
+  }
+  .gate.gone{opacity:0; visibility:hidden; pointer-events:none}
+  .gate-emblem{
+    position:absolute; width:min(340px, 46vw); opacity:.09; filter:saturate(.4) blur(1px);
+    transform:translateY(-6%); pointer-events:none;
+  }
+  .gate-line{
+    position:absolute; top:50%; left:50%; width:0; height:1px; background:var(--red);
+    transform:translate(-50%,-50%); opacity:.6; animation:gateLine 2.4s ease forwards;
+  }
+  @keyframes gateLine{to{width:min(80vw,900px)}}
+  .gate-inner{position:relative; max-width:760px; padding:0 24px; z-index:2}
+  .gate-kicker{font-family:var(--mono); font-size:.66rem; letter-spacing:.4em; color:var(--faint); margin-bottom:34px}
+  .gate-kicker b{color:var(--red)}
+  .gate-song{font-family:var(--mono); font-size:.72rem; letter-spacing:.6em; color:var(--dim); margin-bottom:14px}
+  .gate-title{
+    font-family:var(--disp); font-weight:900; font-size:clamp(2.2rem,6.2vw,4.6rem);
+    letter-spacing:.08em; line-height:1.05; margin-bottom:12px;
+    text-shadow:0 0 60px rgba(255,51,75,.35);
+  }
+  .gate-title span{color:var(--red)}
+  .gate-sub{font-size:clamp(1.05rem,2.2vw,1.3rem); font-style:italic; color:var(--dim); margin-bottom:42px}
+  .gate-sub b{color:var(--ink); font-style:normal}
+  .gate-btn{
+    font-family:var(--mono); font-size:.8rem; letter-spacing:.35em; cursor:pointer;
+    background:transparent; color:var(--ink); border:1px solid var(--red-deep); border-radius:var(--r-s);
+    padding:18px clamp(24px,4vw,42px); position:relative; overflow:hidden; transition:.4s;
+  }
+  .gate-btn::before{
+    content:''; position:absolute; inset:0; background:var(--red);
+    transform:scaleX(0); transform-origin:left; transition:transform .45s cubic-bezier(.7,0,.2,1); z-index:-1;
+  }
+  .gate-btn:hover{color:#fff; box-shadow:0 0 50px rgba(255,51,75,.5)}
+  .gate-btn:hover::before{transform:scaleX(1)}
+  .gate-note{font-family:var(--mono); font-size:.6rem; letter-spacing:.25em; color:var(--faint); margin-top:22px}
+
+  /* ══════════════ ATMOSPHERE ══════════════ */
+  #chordCanvas{position:fixed; inset:0; z-index:0; pointer-events:none}
+  .grain{position:fixed; inset:-50%; z-index:1; pointer-events:none; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 8s steps(10) infinite}
+  @keyframes grain{0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-5%)}30%{transform:translate(3%,-2%)}50%{transform:translate(-2%,4%)}70%{transform:translate(4%,2%)}90%{transform:translate(-3%,3%)}}
+  .grade{position:fixed; inset:0; z-index:2; pointer-events:none; mix-blend-mode:soft-light; opacity:.8;
+    background:linear-gradient(155deg, rgba(46,62,96,.4) 0%, transparent 38%, rgba(120,40,40,.22) 70%, rgba(255,170,90,.28) 100%)}
+  .vignette{position:fixed; inset:0; z-index:2; pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%)}
+  .scanlines{position:fixed; inset:0; z-index:2; pointer-events:none; opacity:.22;
+    background:repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.12) 4px)}
+  .whisper-layer{position:fixed; inset:0; z-index:3; pointer-events:none}
+  .whisper{
+    position:absolute; font-family:var(--mono); font-size:.72rem; letter-spacing:.3em;
+    color:rgba(255,150,160,.4); white-space:nowrap; text-shadow:0 0 12px rgba(255,51,75,.4);
+    animation:whisperRise 11s linear forwards;
+  }
+  @keyframes whisperRise{
+    0%{opacity:0; transform:translateY(30px)}
+    15%{opacity:.85} 70%{opacity:.5}
+    100%{opacity:0; transform:translateY(-130px)}
+  }
+  .progress{position:fixed; top:0; left:0; right:0; height:2px; z-index:1500; background:rgba(255,255,255,.04)}
+  .progress i{display:block; height:100%; width:0; background:linear-gradient(90deg, var(--red-deep), var(--red)); box-shadow:0 0 12px var(--red)}
+
+  /* ══════════════ HUD ══════════════ */
+  .hud{
+    position:fixed; top:0; left:0; right:0; z-index:1600;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:12px clamp(14px,2vw,26px); backdrop-filter:blur(14px);
+    background:linear-gradient(180deg, rgba(11,14,20,.92), rgba(11,14,20,.72) 70%, transparent);
+    border-bottom:1px solid rgba(38,45,59,.6);
+  }
+  .hud-mark{display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:.78rem; letter-spacing:.2em; white-space:nowrap}
+  .hud-86{color:var(--red); font-weight:800; font-size:1rem}
+  .hud-slash{color:var(--faint)}
+  .hud-sub{color:var(--dim)}
+  .status-badge{display:flex; align-items:center; gap:6px; font-size:.6rem; color:var(--red); border:1px solid var(--red-deep); padding:3px 8px; letter-spacing:.25em}
+  .status-badge i{width:5px; height:5px; border-radius:50%; background:var(--red); animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1; box-shadow:0 0 6px var(--red)}50%{opacity:.3; box-shadow:none}}
+
+  .chord-dock{display:flex; align-items:center; gap:14px; padding:8px 16px;
+    border:1px solid var(--gbrd); border-radius:var(--r-s);
+    background:var(--glass); -webkit-backdrop-filter:blur(18px) saturate(1.4); backdrop-filter:blur(18px) saturate(1.4);
+    box-shadow:var(--e1), inset 0 1px 0 rgba(255,255,255,.06)}
+  .chord-dock .kd{display:flex; flex-direction:column; line-height:1.25; min-width:0}
+  .chord-dock .kd-play{font-family:var(--mono); font-size:.52rem; letter-spacing:.3em; color:var(--red)}
+  .chord-dock .kd-title{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .chord-dock .kd-artist{font-family:var(--mono); font-size:.56rem; letter-spacing:.1em; color:var(--dim); white-space:nowrap}
+  #spectrum{display:block; image-rendering:pixelated}
+  .dock-btns{display:flex; align-items:center; gap:6px}
+  .dbtn{
+    background:transparent; border:1px solid var(--line); color:var(--dim); cursor:pointer;
+    font-family:var(--mono); font-size:.7rem; padding:6px 9px; transition:.25s;
+  }
+  .dbtn:hover{color:var(--ink); border-color:var(--red)}
+  .dbtn.play{border-color:var(--red-deep); color:var(--red); font-size:.75rem; padding:6px 12px}
+  .dbtn.play:hover{background:var(--red); color:#fff}
+  .hud-right{display:flex; align-items:center; gap:10px}
+  .hbtn{
+    display:flex; align-items:center; gap:8px; background:transparent; cursor:pointer;
+    border:1px solid var(--line); color:var(--dim); font-family:var(--mono); font-size:.62rem;
+    letter-spacing:.22em; padding:8px 14px; transition:.25s; white-space:nowrap;
+  }
+  .hbtn:hover{color:var(--ink); border-color:var(--red)}
+  .hbtn.engage{border-color:var(--red-deep); color:var(--red)}
+  .hbtn.engage b{color:var(--ink)}
+  .hbtn.engage.on{background:rgba(255,51,75,.12); color:var(--ink)}
+
+  /* ══════════════ RAIL ══════════════ */
+  .rail{position:fixed; left:22px; top:50%; transform:translateY(-50%); z-index:1400; display:flex; flex-direction:column; gap:20px}
+  .rail a{position:relative; display:flex; align-items:center; gap:12px; height:12px}
+  .rail a span{width:12px; height:1.5px; background:var(--faint); transition:.3s; flex:none}
+  .rail a i{font-family:var(--mono); font-style:normal; font-size:.55rem; letter-spacing:.3em; color:transparent; transition:.3s; opacity:0}
+  .rail a:hover span{background:var(--red); width:20px}
+  .rail a.active span{background:var(--red); width:26px; box-shadow:0 0 8px var(--red)}
+  .rail a.active i{opacity:0}
+  .rail a:hover i{color:var(--dim); opacity:1}
+  @media(max-width:900px){.rail{display:none}}
+
+  /* ══════════════ LAYOUT ══════════════ */
+  main{position:relative; z-index:10}
+  section{position:relative; padding:var(--pad-y) var(--pad-x)}
+  .mov-kick{display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:.62rem; letter-spacing:.45em; color:var(--faint); margin-bottom:26px}
+  .mov-kick b{color:var(--red); font-weight:700}
+  .mov-kick::after{content:''; height:1px; width:min(70px,12vw); background:var(--line); flex:none}
+  .mov-title{
+    font-family:var(--disp); font-weight:700; letter-spacing:.02em;
+    font-size:clamp(1.9rem,4.4vw,3.6rem); line-height:1.14; margin-bottom:clamp(26px,4vh,44px); max-width:18em;
+  }
+  .mov-title em{font-style:normal; color:var(--red)}
+  .prose{max-width:640px; font-size:clamp(1.05rem,1.55vw,1.28rem); color:#c8cfdd}
+  .prose p{margin-bottom:1.5em; line-height:1.72}
+  .prose .lede{font-size:1.5em; color:var(--ink); font-weight:500; line-height:1.5}
+  .prose em{font-style:italic; color:var(--ink)}
+  .prose .wound{color:var(--red); font-weight:600}
+  .prose .quiet{color:var(--dim)}
+  .wide{max-width:820px}
+  .pullquote{
+    border-left:2px solid var(--red); padding:6px 0 6px 26px; margin:clamp(30px,5vh,52px) 0;
+    font-size:1.3em; font-style:italic; color:var(--ink); max-width:560px;
+  }
+  .pullquote cite{display:block; margin-top:10px; font-style:normal; font-family:var(--mono); font-size:.6rem; letter-spacing:.3em; color:var(--faint)}
+
+  .reveal{opacity:0; transform:translateY(34px); transition:opacity 1s ease, transform 1s ease}
+  .reveal.vis{opacity:1; transform:none}
+
+  /* ══════════════ HERO ══════════════ */
+  .hero{min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding-top:130px; overflow:hidden}
+  .kanji-wm{
+    position:absolute; right:-2vw; top:46%; transform:translateY(-50%);
+    font-family:var(--jp); font-weight:900; writing-mode:vertical-rl;
+    font-size:clamp(6rem,15vw,13rem); color:var(--red); opacity:.08; letter-spacing:.1em;
+    text-shadow:0 0 80px rgba(255,51,75,.5); pointer-events:none; user-select:none;
+  }
+  .kanji-wm small{font-size:.35em; opacity:.8; display:block; margin-top:30px}
+  .hero-eyebrow{font-family:var(--mono); font-size:.66rem; letter-spacing:.5em; color:var(--dim); margin-bottom:20px; max-width:80ch}
+  .hero-eyebrow b{color:var(--red)}
+  .hero-jp{font-family:var(--jp); font-size:1rem; letter-spacing:.6em; color:var(--faint); margin-bottom:14px}
+  h1.hero-name{
+    font-family:var(--disp); font-weight:900; font-size:clamp(2.9rem,9vw,8.2rem);
+    line-height:.98; letter-spacing:.02em; margin-bottom:6px; max-width:100%;
+  }
+  .hero-name .word{display:inline-block; overflow:hidden; white-space:nowrap}
+  .hero-name .ch{display:inline-block; transform:translateY(110%); animation:raise .9s cubic-bezier(.2,.8,.2,1) forwards; animation-delay:calc(var(--d) * 1s)}
+  @keyframes raise{to{transform:none}}
+  .callsign{display:flex; align-items:center; gap:16px; margin:20px 0 28px; flex-wrap:wrap}
+  .cs-tag{font-family:var(--mono); font-size:.6rem; letter-spacing:.35em; color:var(--faint)}
+  .callsign .rule{height:1px; width:64px; background:var(--red); flex:none}
+  .glitch{
+    font-family:var(--mono); font-weight:800; font-size:clamp(1.1rem,2.2vw,1.5rem); letter-spacing:.5em; color:var(--red);
+    position:relative; text-shadow:0 0 30px rgba(255,51,75,.5);
+  }
+  .glitch::before,.glitch::after{content:attr(data-text); position:absolute; inset:0; opacity:.75}
+  .glitch::before{animation:gl1 3s infinite steps(1); color:#4ff0e8; transform:translateX(2px)}
+  .glitch::after{animation:gl2 2.6s infinite steps(1); color:var(--red)}
+  @keyframes gl1{0%,92%{opacity:0} 94%{opacity:.7; transform:translate(-3px,1px)} 100%{opacity:0}}
+  @keyframes gl2{0%,90%{opacity:0} 92%{opacity:.6; transform:translate(3px,-1px)} 100%{opacity:0}}
+  .hero-dossier{display:flex; flex-wrap:wrap; gap:8px 10px; font-family:var(--mono); font-size:.56rem; letter-spacing:.22em; color:var(--dim); margin-bottom:26px; max-width:640px}
+  .hero-dossier span{border:1px solid var(--gbrd); border-left:2px solid var(--red-deep); border-radius:2px; padding:7px 12px; background:rgba(20,25,36,.42)}
+  .hero-dossier b{color:var(--ink); font-weight:500}
+  .hero-quote{
+    max-width:520px; border-top:1px solid var(--line); padding-top:24px; margin-bottom:26px;
+    min-height:120px;
+  }
+  .hero-quote blockquote{
+    font-size:clamp(1.15rem,2.4vw,1.5rem); font-style:italic; color:var(--ink); line-height:1.45;
+    transition:opacity .6s ease; margin-bottom:10px;
+  }
+  .hero-quote.fading blockquote{opacity:0}
+  .hero-quote cite{font-family:var(--mono); font-style:normal; font-size:.6rem; letter-spacing:.3em; color:var(--faint)}
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:clamp(48px,9vh,88px)}
+  .big-btn{
+    display:inline-flex; align-items:center; gap:14px; cursor:pointer; position:relative; overflow:hidden;
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.3em; padding:clamp(12px,2vh,16px) clamp(18px,2.6vw,30px);
+    border:1px solid var(--red-deep); border-radius:var(--r-s); color:var(--ink); background:transparent; transition:.35s; text-align:left;
+  }
+  .big-btn:hover{background:var(--red); color:#fff; box-shadow:0 0 44px rgba(255,51,75,.55)}
+  .big-btn.ghost{border-color:var(--line); color:var(--dim)}
+  .big-btn.ghost:hover{border-color:var(--ink); background:transparent; color:var(--ink); box-shadow:none}
+  .big-btn b{color:var(--red); font-weight:700}
+  .big-btn:hover b{color:#fff}
+  .scroll-cue{
+    position:absolute; bottom:30px; left:var(--pad-x); display:flex; align-items:center; gap:12px;
+    font-family:var(--mono); font-size:.58rem; letter-spacing:.4em; color:var(--faint); max-width:70%;
+  }
+  .scroll-cue i{width:1px; height:44px; flex:none; background:linear-gradient(var(--red),transparent); animation:beat 1.8s infinite; transform-origin:top}
+  @keyframes beat{0%,100%{transform:scaleY(1); opacity:1}50%{transform:scaleY(.25); opacity:.4}}
+  .hero-portrait{
+    position:absolute; right:2vw; bottom:0; width:min(37vw,540px); height:auto; z-index:-1;
+    filter:drop-shadow(0 0 26px rgba(0,0,0,.65));
+    clip-path:polygon(0 0, 62% 0, 62% 20%, 100% 20%, 100% 100%, 0 100%);
+    mask-image:radial-gradient(100% 112% at 40% 52%, #000 52%, transparent 82%);
+    -webkit-mask-image:radial-gradient(100% 112% at 40% 52%, #000 52%, transparent 82%);
+  }
+  @media(max-width:1050px){
+    .kanji-wm{opacity:.05}
+    .hero-portrait{opacity:.5; width:min(48vw,420px); right:-6vw}
+    .scroll-cue span{display:none}
+  }
+  @media(max-width:640px){
+    .hero{padding-top:108px}
+    .hero-portrait{opacity:.22; width:78vw; right:-16vw; max-width:none}
+    .hero-eyebrow{font-size:.55rem; letter-spacing:.32em}
+    .hero-jp{letter-spacing:.3em}
+    .hero-dossier span{padding:6px 9px}
+    .kanji-wm{display:none}
+    .dawn-wm{display:none}
+    .scroll-cue i{display:none}
+  }
+
+  /* ══════════════ ACT I — THE LIE ══════════════ */
+  .act-lie{background:linear-gradient(180deg, var(--ash) 0%, #101319 100%)}
+  .lie-grid{display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:clamp(36px,5vw,70px); align-items:start}
+  .ledger{border:1px solid var(--line); background:rgba(20,25,36,.55); font-family:var(--mono)}
+  .ledger-head{display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.28em; padding:12px 16px; border-bottom:1px solid var(--line); color:var(--dim)}
+  .ledger-head .st{color:var(--red)}
+  .ledger-rows{padding:10px 16px}
+  .ledger-rows div{display:flex; align-items:center; gap:10px; padding:12px 0; font-size:.72rem; letter-spacing:.14em; color:var(--dim)}
+  .ledger-rows b{font-size:1.4rem; color:var(--ink); margin-left:auto}
+  .ledger-rows b.zero{color:var(--red); text-shadow:0 0 14px rgba(255,51,75,.5)}
+  .ledger-rows i{flex:1; border-bottom:1px dotted #2b3242}
+  .ledger-foot{padding:12px 16px; border-top:1px solid var(--line); font-size:.58rem; letter-spacing:.3em; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
+  .ledger-foot .stamp{color:var(--red); border:1px solid var(--red-deep); padding:3px 8px; transform:rotate(-3deg)}
+  .ledger-foot .truth{color:var(--faint); opacity:0; transition:opacity 2s 1.2s}
+  .ledger.burned .ledger-foot .truth{opacity:1; color:var(--ember); animation:flick 3s infinite}
+  @keyframes flick{0%,100%{opacity:.85}48%{opacity:.5}52%{opacity:.9}}
+
+  /* ══════════════ ACT II — THE CHOIR ══════════════ */
+  .act-choir{background:linear-gradient(180deg,#101319,#0d0f16 60%,#12090c)}
+  .choir-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(36px,5vw,70px); align-items:start; margin-top:clamp(40px,7vh,80px)}
+  .radar{position:relative; aspect-ratio:1; width:min(100%,520px); border-radius:50%; border:1px solid #2c3140;
+    background:radial-gradient(circle, #101720 0%, #0a0d13 75%); overflow:hidden; margin:auto}
+  .radar .ring{position:absolute; border:1px solid rgba(90,110,140,.16); border-radius:50%}
+  .radar .r1{inset:16%} .radar .r2{inset:33%} .radar .r3{inset:50%}
+  .radar .crossH,.radar .crossV{position:absolute; background:rgba(90,110,140,.15)}
+  .radar .crossH{left:0; right:0; top:50%; height:1px}
+  .radar .crossV{top:0; bottom:0; left:50%; width:1px}
+  .radar .sweep{
+    position:absolute; inset:0; border-radius:50%;
+    background:conic-gradient(from 0deg, rgba(255,51,75,.35), transparent 22%, transparent 100%);
+    animation:sweep 5s linear infinite; mask:radial-gradient(circle, #000 99%, transparent 100%);
+    -webkit-mask:radial-gradient(circle, #000 99%, transparent 100%);
+  }
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  .blip{position:absolute; display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer; z-index:2; transform:translate(-50%,-50%)}
+  .blip .dot{width:7px; height:7px; border-radius:50%; background:var(--red); box-shadow:0 0 10px var(--red); animation:blink 2s infinite}
+  .blip.dead .dot{background:var(--blue); box-shadow:0 0 10px var(--blue)}
+  .blip .lbl{font-family:var(--mono); font-size:.5rem; letter-spacing:.25em; color:var(--dim); white-space:nowrap; text-shadow:0 1px 4px #000}
+  .blip:hover .lbl,.blip.on .lbl{color:var(--ink)}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .intercept{border:1px solid var(--line); background:rgba(18,9,12,.7); font-family:var(--mono)}
+  .intercept-head{display:flex; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); font-size:.58rem; letter-spacing:.28em; color:var(--dim)}
+  .intercept-head .live{color:var(--red)}
+  .intercept-body{padding:clamp(16px,2.4vw,22px) 20px; min-height:172px}
+  .t-row{display:flex; gap:18px; font-size:.62rem; letter-spacing:.2em; color:var(--faint); margin-bottom:12px; flex-wrap:wrap}
+  .t-row b{color:var(--ink); font-weight:500}
+  .t-voice{margin-top:20px; border-top:1px solid var(--line); padding-top:18px}
+  .t-voice p{font-family:var(--serif); font-size:1.26rem; font-style:italic; color:#ffd7dc; line-height:1.5}
+  .t-voice small{display:block; margin-top:10px; font-size:.55rem; letter-spacing:.3em; color:var(--faint)}
+  .intercept-foot{padding:12px 16px; border-top:1px solid var(--line); font-size:.55rem; letter-spacing:.24em; color:var(--faint)}
+
+  /* ══════════════ ACT III — THE BROTHER ══════════════ */
+  .act-brother{background:linear-gradient(180deg,#12090c,#0b0e14 85%)}
+  .act-brother::before{
+    content:'兄'; position:absolute; right:2vw; top:10vh; font-family:var(--jp); font-weight:900;
+    font-size:clamp(9rem,22vw,18rem); color:var(--red); opacity:.05; pointer-events:none;
+  }
+  .bro-quote{
+    margin:clamp(36px,6vh,64px) 0 0; padding:clamp(26px,4vh,40px) 0; border-top:1px solid rgba(255,51,75,.25);
+    font-family:var(--disp); font-size:clamp(1.35rem,3vw,2.3rem); font-weight:600;
+    line-height:1.4; color:var(--ink); max-width:820px;
+  }
+  .bro-quote span{color:var(--red)}
+  .bro-quote cite{display:block; margin-top:16px; font-family:var(--mono); font-style:normal; font-size:.6rem; letter-spacing:.35em; color:var(--faint)}
+
+  /* ══════════════ ACT IV — THE BOX ══════════════ */
+  .act-box{background:linear-gradient(180deg,#0b0e14,#12161f)}
+  .box-grid{display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:clamp(36px,5vw,70px); align-items:center}
+  .tag-slot{position:relative; min-height:200px; display:flex; align-items:center; justify-content:center}
+  #tagBox{
+    position:relative; width:min(290px,100%); padding:26px 24px 20px; border:1px solid var(--gbrd-2);
+    background:linear-gradient(160deg, rgba(28,35,50,.72), rgba(20,25,36,.55));
+    -webkit-backdrop-filter:blur(12px) saturate(1.25); backdrop-filter:blur(12px) saturate(1.25);
+    border-radius:var(--r); font-family:var(--mono); text-align:center;
+    box-shadow:var(--e3), inset 0 1px 0 rgba(255,255,255,.06);
+    transform:rotate(-2deg); transition:transform .5s cubic-bezier(.2,.8,.2,1), opacity .3s;
+  }
+  #tagBox::before{content:''; position:absolute; left:50%; top:14px; transform:translateX(-50%);
+    width:12px; height:12px; border-radius:50%; background:var(--ash);
+    box-shadow:inset 0 0 0 2px #4a5266, 0 0 0 3px #2a3140}
+  .tag.swap{opacity:0; transform:rotate(2deg) translateY(10px)}
+  #tagBox .name{display:block; font-size:1.05rem; font-weight:700; letter-spacing:.2em; margin-top:22px; color:var(--ink)}
+  #tagBox .call{display:block; margin-top:6px; font-size:.6rem; letter-spacing:.35em; color:var(--red)}
+  #tagBox .rule{display:block; margin:16px auto; width:60%; height:1px; background:#2f3745}
+  #tagBox .foot{display:block; font-size:.5rem; letter-spacing:.3em; color:var(--faint)}
+  .tag.held{animation:holdTag 4s ease}
+  @keyframes holdTag{0%{transform:rotate(-2deg) scale(1)}12%{transform:rotate(0deg) scale(1.05)}88%{transform:rotate(0deg) scale(1.05)}100%{transform:rotate(-2deg) scale(1)}}
+  .draw-btn{
+    display:block; width:100%; margin-top:26px; padding:16px; cursor:pointer;
+    background:transparent; border:1px solid var(--red-deep); border-radius:var(--r-s); color:var(--ink);
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.3em; transition:.3s;
+  }
+  .draw-btn:hover{background:var(--red); color:#fff; box-shadow:0 0 34px rgba(255,51,75,.4)}
+  .draw-count{margin-top:12px; text-align:center; font-family:var(--mono); font-size:.58rem; letter-spacing:.3em; color:var(--faint)}
+  .draw-count b{color:var(--red)}
+  .draw-note{margin-top:8px; text-align:center; font-family:var(--serif); font-style:italic; color:var(--dim); font-size:.92rem; min-height:1.4em}
+
+  /* ══════════════ ACT V — THE MARCH ══════════════ */
+  .act-march{background:linear-gradient(180deg,#12161f,#170c0e); overflow:hidden}
+  .march-portrait{
+    position:absolute; right:-4vw; top:50%; transform:translateY(-50%);
+    width:min(24vw,300px); opacity:.07; pointer-events:none; user-select:none;
+    mask-image:linear-gradient(180deg,#000 70%,transparent); -webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);
+  }
+  .march-portrait img{width:100%; height:auto; display:block; filter:grayscale(.4)}
+  .march-steps{margin-top:clamp(40px,7vh,80px); border-left:1px solid var(--line); display:grid}
+  .step{position:relative; padding:26px 0 26px clamp(28px,4vw,46px)}
+  .step::before{content:''; position:absolute; left:-4px; top:40px; width:7px; height:7px; border-radius:50%; background:var(--red); box-shadow:0 0 12px var(--red)}
+  .step h3{font-family:var(--mono); font-size:.7rem; letter-spacing:.35em; color:var(--red); margin-bottom:10px}
+  .step p{font-size:1.15rem; color:#c8cfdd; max-width:640px; line-height:1.7}
+
+  /* ══════════════ ACT VI — THE DESTINATION ══════════════ */
+  .act-live{background:linear-gradient(180deg,#170c0e 0%, #1c1410 18%, #211b14 45%, #2a2419 80%, #33291a)}
+  .act-live .mov-kick, .act-live .mov-title{position:relative; z-index:2}
+  .dawn-wm{
+    position:absolute; top:16vh; left:50%; transform:translateX(-50%);
+    font-family:var(--jp); font-weight:700; font-size:clamp(2.6rem,8vw,6.4rem); letter-spacing:.3em;
+    color:rgba(255,214,150,.09); white-space:nowrap; pointer-events:none;
+  }
+  .live-grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(240px,380px); gap:clamp(30px,5vw,60px); align-items:center; margin-top:clamp(30px,5vh,56px)}
+  .portrait-2nd{width:100%; height:auto; opacity:.92; pointer-events:none;
+    mask-image:linear-gradient(180deg,#000 80%,transparent); -webkit-mask-image:linear-gradient(180deg,#000 80%,transparent)}
+  .field{position:relative; height:min(300px,44vh); border:1px solid rgba(255,170,90,.2); overflow:hidden; cursor:crosshair;
+    background:linear-gradient(180deg, #0b0d13 0%, #241a12 62%, #57121e 100%)}
+  .field .hint{position:absolute; inset:0; display:flex; align-items:flex-end; padding:18px;
+    font-family:var(--mono); font-size:.55rem; letter-spacing:.3em; color:rgba(255,214,170,.5); pointer-events:none; z-index:2}
+  .field .quote-abs{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center;
+    font-size:clamp(1.05rem,2.4vw,1.5rem); font-style:italic; color:#ffe9c9; padding:0 30px; pointer-events:none; z-index:2;
+    text-shadow:0 2px 30px rgba(0,0,0,.8)}
+  .field canvas{position:absolute; inset:0; width:100%; height:100%}
+  .live-lines{margin-top:clamp(56px,10vh,96px); text-align:center}
+  .live-line{font-family:var(--mono); letter-spacing:.45em; color:var(--dim); font-size:clamp(.66rem,1vw,.8rem); margin-bottom:20px; padding:0 12px}
+  .live-line.big{font-family:var(--disp); font-weight:900; font-size:clamp(1.4rem,4vw,3rem); letter-spacing:.12em; color:var(--ink); line-height:1.35}
+  .live-line.big span{color:var(--red)}
+  .epitaph{
+    margin:clamp(64px,12vh,110px) auto 0; max-width:640px; text-align:center;
+    border-top:1px solid rgba(255,170,90,.25); padding-top:clamp(36px,6vh,60px);
+  }
+  .epitaph .e1,.epitaph .e2,.epitaph .e3{font-family:var(--disp); line-height:1.55}
+  .epitaph .e1{font-size:1.4rem; color:var(--dim)}
+  .epitaph .e2{font-size:clamp(1.5rem,4vw,2.9rem); font-weight:900; color:var(--ink); margin-top:8px}
+  .epitaph .e2 b{color:var(--red)}
+  .epitaph .e3{margin-top:22px; font-family:var(--serif); font-size:1.2rem; font-style:italic; color:var(--ember); padding:0 16px}
+
+  /* ══════════════ FOOTER ══════════════ */
+  footer{position:relative; z-index:10; background:#0a0c10; border-top:1px solid var(--line); padding:clamp(44px,7vh,70px) var(--pad-x) clamp(32px,5vh,50px)}
+  .foot-inner{display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start; justify-content:space-between}
+  .foot-mark{display:flex; align-items:center; gap:16px}
+  .foot-86{font-family:var(--disp); font-weight:900; font-size:3.4rem; color:var(--red-deep); line-height:1}
+  .foot-mark img{width:72px; height:auto; opacity:.5}
+  .foot-copy p{font-size:.95rem; color:var(--dim); margin-bottom:12px}
+  .foot-copy .legal{font-family:var(--mono); font-size:.58rem; letter-spacing:.14em; line-height:2; color:var(--faint); max-width:560px}
+  .foot-names{font-family:var(--mono); font-size:.6rem; letter-spacing:.3em; color:var(--faint); display:grid; gap:10px; text-align:right}
+  .foot-names b{color:var(--red)}
+  .back-top{display:inline-flex; gap:10px; margin-top:34px; font-family:var(--mono); font-size:.6rem; letter-spacing:.3em; color:var(--dim); border:1px solid var(--gbrd); border-radius:var(--r-s); padding:12px 20px; transition:.3s}
+  .back-top:hover{color:var(--ink); border-color:var(--red)}
+  @media(max-width:720px){.foot-names{text-align:left}}
+
+  /* ══════════════ MATERIAL SURFACES ══════════════ */
+  :where(button, a):focus-visible{ outline:2px solid var(--red); outline-offset:3px }
+  .big-btn:active, .dbtn:active, .hbtn:active, .draw-btn:active, .gate-btn:active{ transform:scale(.97) }
+
+  .ledger, .intercept{ position:relative; border:1px solid var(--gbrd); border-radius:var(--r);
+    background:linear-gradient(165deg, rgba(26,33,48,.5), rgba(15,19,29,.42));
+    -webkit-backdrop-filter:blur(16px) saturate(1.35); backdrop-filter:blur(16px) saturate(1.35);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05), var(--e1);
+    transition:transform .45s var(--ease), box-shadow .45s, border-color .45s }
+  .ledger:hover, .intercept:hover{ transform:translateY(-3px); border-color:var(--gbrd-2);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07), var(--e3) }
+  .field{ position:relative; border:1px solid rgba(255,170,90,.28); border-radius:var(--r);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05), inset 0 0 0 1px rgba(255,170,90,.05), var(--e1);
+    transition:box-shadow .45s, border-color .45s }
+  .field:hover{ border-color:rgba(255,170,90,.5); box-shadow:inset 0 1px 0 rgba(255,255,255,.07), var(--e2) }
+
+  /* animated corner brackets — the frame boundaries */
+  .ledger::after, .intercept::after, .field::after, #tagBox::after{
+    content:''; position:absolute; inset:-1px; pointer-events:none; opacity:0; transform:scale(1.03);
+    background:
+      linear-gradient(var(--red),var(--red)) 0 0/18px 1px, linear-gradient(var(--red),var(--red)) 0 0/1px 18px,
+      linear-gradient(var(--red),var(--red)) 100% 0/18px 1px, linear-gradient(var(--red),var(--red)) 100% 0/1px 18px,
+      linear-gradient(var(--red),var(--red)) 0 100%/18px 1px, linear-gradient(var(--red),var(--red)) 0 100%/1px 18px,
+      linear-gradient(var(--red),var(--red)) 100% 100%/18px 1px, linear-gradient(var(--red),var(--red)) 100% 100%/1px 18px;
+    background-repeat:no-repeat; mix-blend-mode:screen;
+  }
+  .ledger::after, .intercept::after, .field::after, #tagBox::after{
+    transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .ledger.reveal.vis::after, .intercept.reveal.vis::after, .field.reveal.vis::after,
+  .reveal.vis #tagBox::after{ opacity:.55; transform:none }
+  .ledger:hover::after, .intercept:hover::after, .field:hover::after,
+  .tag-slot:hover #tagBox::after{ opacity:1; transform:none }
+
+  @media(max-width:640px){ .ledger:hover, .intercept:hover{ transform:none } }
+
+  @media(max-width:1024px){
+    .lie-grid, .choir-grid, .box-grid, .live-grid{grid-template-columns:1fr}
+    .march-portrait{display:none}
+    .ledger{max-width:460px}
+    .intercept{max-width:560px}
+  }
+  @media(max-width:720px){
+    .hud{gap:8px}
+    .hud-mark .hud-sub, .hud-mark .hud-slash{display:none}
+    .chord-dock{gap:10px; padding:6px 10px}
+    #spectrum, .chord-dock .kd-artist, .chord-dock .kd-play{display:none}
+    .chord-dock .kd{min-width:0}
+    .hbtn{padding:7px 10px; letter-spacing:.14em}
+    .hbtn .hb-txt{display:none}
+    .mov-kick{letter-spacing:.3em}
+    .prose{font-size:1.02rem}
+    .step p{font-size:1.05rem}
+    .live-line{letter-spacing:.28em}
+  }
+  @media(max-width:480px){
+    .status-badge{display:none}
+    .chord-dock .kd-title{font-size:.66rem}
+    .hero-quote{min-height:150px}
+    .tag-slot{min-height:230px}
+    .gate-note{letter-spacing:.14em}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
+    .reveal{opacity:1; transform:none}
+  }
+  </style>
+</head>
+<body>
+
+  <!-- ═════════ GATE ═════════ -->
+  <div class="gate" id="gate" role="dialog" aria-label="Resonance gate">
+    <img class="gate-emblem" src="assets/shin_render.png" alt="" aria-hidden="true" />
+    <div class="gate-line" aria-hidden="true"></div>
+    <div class="gate-inner">
+      <p class="gate-kicker">FIRST WARD // COMBAT RECORD 061 // <b>VOICES DETECTED: 576</b></p>
+      <p class="gate-song mono">VOICES OF THE CHORD — A REQUIEM IN SIX MOVEMENTS</p>
+      <h2 class="gate-title">SHINEI <span>NOUZEN</span></h2>
+      <p class="gate-sub">The Republic buried him without a grave.<br />So <b>he became the burial service.</b></p>
+      <button class="gate-btn mono" id="gateBtn" type="button">RESONATE — ENTER WITH SOUND</button>
+      <p class="gate-note mono">HEADPHONES RECOMMENDED · PRESS ENTER, OR RESONATE BELOW · THIS PAGE IS THE SONG, PLAYED IN SCROLL</p>
+    </div>
+  </div>
+
+  <!-- ═════════ ATMOSPHERE ═════════ -->
+  <canvas id="chordCanvas" aria-hidden="true"></canvas>
+  <div class="grade" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="whisper-layer" id="whisperLayer" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+  <!-- ═════════ HUD ═════════ -->
+  <header class="hud">
+    <a class="hud-mark mono" href="#hero" aria-label="Back to top">
+      <span class="hud-86">86</span><span class="hud-slash">//</span><span class="hud-sub">UNDERTAKER</span>
+      <span class="status-badge"><i></i>RESONATING</span>
+    </a>
+
+    <div class="chord-dock" id="chordDock">
+      <div class="dock-btns">
+        <button class="dbtn play" id="playBtn" type="button" title="Play / Pause the requiem (Space)">▶</button>
+        <button class="dbtn" id="muteBtn" type="button" title="Mute">♪</button>
+      </div>
+      <div class="kd">
+        <span class="kd-play mono">NOW RESONATING · REQUIEM</span>
+        <span class="kd-title mono" id="trackTitle">VOICES OF THE CHORD</span>
+        <span class="kd-artist mono" id="trackArtist">Hiroyuki Sawano feat. Gemie</span>
+      </div>
+      <canvas id="spectrum" width="72" height="24" title="The dead, singing" aria-hidden="true"></canvas>
+    </div>
+
+    <div class="hud-right">
+      <button class="hbtn engage mono" id="whisperToggle" type="button" title="Shin never stops hearing them. Now you will too.">
+        <span class="hb-ico">👂</span><span class="hb-txt">VOICES: <b id="whisperState">OFF</b></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═════════ RAIL ═════════ -->
+  <nav class="rail mono" aria-label="Movements of the requiem">
+    <a href="#hero"><span></span><i>00 · THE UNDERTAKER</i></a>
+    <a href="#lie"><span></span><i>01 · THE LIE</i></a>
+    <a href="#choir"><span></span><i>02 · THE CHOIR</i></a>
+    <a href="#brother"><span></span><i>03 · THE BROTHER</i></a>
+    <a href="#box"><span></span><i>04 · THE BOX</i></a>
+    <a href="#march"><span></span><i>05 · THE MARCH</i></a>
+    <a href="#live"><span></span><i>06 · THE DESTINATION</i></a>
+  </nav>
+
+  <main>
+
+    <!-- ═════════ 00 · HERO ═════════ -->
+    <section class="hero" id="hero" aria-label="Shinei Nouzen — the Undertaker">
+      <div class="kanji-wm" lang="ja" aria-hidden="true">死神<small>葬儀屋</small></div>
+      <img class="hero-portrait" src="assets/shin_render_hd.png" alt="Shinei Nouzen — red-eyed, in Giad dress uniform" />
+
+      <p class="hero-eyebrow mono">REQUIEM No. <b>86</b> — SUNG BY THE DEAD, CARRIED BY A BOY THEY TRUSTED</p>
+      <p class="hero-jp" lang="ja">シンエイ・ノウゼン</p>
+      <h1 class="hero-name">
+        <span class="word"><span class="ch" style="--d:.05">S</span><span class="ch" style="--d:.09">H</span><span class="ch" style="--d:.13">I</span><span class="ch" style="--d:.17">N</span><span class="ch" style="--d:.21">E</span><span class="ch" style="--d:.25">I</span>&nbsp;</span>
+        <span class="word"><span class="ch" style="--d:.33">N</span><span class="ch" style="--d:.37">O</span><span class="ch" style="--d:.41">U</span><span class="ch" style="--d:.45">Z</span><span class="ch" style="--d:.49">E</span><span class="ch" style="--d:.53">N</span></span>
+      </h1>
+
+      <div class="callsign mono">
+        <span class="cs-tag">SPEARHEAD CAPTAIN</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span class="glitch" data-text="UNDERTAKER">UNDERTAKER</span>
+        <span class="cs-tag red"> feared as 死神 — the Reaper · blessed by the dead</span>
+      </div>
+
+      <div class="hero-dossier mono">
+        <span>AGE <b>16</b> · BORN MAY 19</span>
+        <span>BLOOD <b>ONYX</b> — GIAD IMPERIAL LINE</span>
+        <span>CARRIES <b>THE BOX</b> — 576 PLATES</span>
+        <span>SCAR: THROAT — <b>HIDDEN BY REI'S SKY-BLUE SCARF</b></span>
+        <span>GIFT: <b>THE DEAD SPEAK TO HIM — BY NAME</b></span>
+      </div>
+
+      <div class="hero-quote" id="heroQuote">
+        <blockquote id="quoteText">“If, someday, we reach our final destination… would you leave some flowers there?”</blockquote>
+        <cite id="quoteCite" class="mono">— THE ONLY REQUEST HE EVER MADE OF THE LIVING</cite>
+      </div>
+
+      <div class="hero-actions">
+        <button class="big-btn mono" id="heroPlay" type="button">▶ PLAY THE REQUIEM · <b>VOICES OF THE CHORD</b></button>
+        <a class="big-btn ghost mono" href="#lie">DESCEND INTO THE RECORD <span aria-hidden="true">↓</span></a>
+      </div>
+
+      <div class="scroll-cue mono" aria-hidden="true"><i></i><span>THE REQUIEM IS LIVE — SIX MOVEMENTS BELOW</span></div>
+    </section>
+
+    <!-- ═════════ 01 · THE LIE ═════════ -->
+    <section class="act-lie" id="lie" aria-label="The lie of the Republic">
+      <p class="mov-kick mono"><b>MOVEMENT 01</b> · THE REPUBLIC OF SAN MAGNOLIA</p>
+      <h2 class="mov-title">A country that ended death<br />with <em>paperwork.</em></h2>
+
+      <div class="lie-grid">
+        <div class="prose reveal">
+          <p class="lede">Every evening, the Republic of San Magnolia reported its war dead: <em>none.</em> The war, it said, was fought entirely by unmanned machines — and machines cannot be mourned.</p>
+          <p>The lie was never a good one. It was simply <em>official.</em> Behind the wall, fifteen million citizens slept in peace because someone else's children were dying in barbed-wire wards they were not allowed to see as people.</p>
+          <p>Those children were the <span class="wound">Eighty-Six</span> — stamped with numbers, stripped of names, and issued four-legged aluminum coffins with a Republic manufacturing plate, a 57mm cannon, and a life expectancy measured in days. The state's genius was never hiding the bodies. Its genius was this: <em>a country that never admits its people exist never has to explain their graves.</em></p>
+          <blockquote class="pullquote">
+            <p>“You cannot mourn what you never registered — so register no one.”</p>
+            <cite class="mono">— THE ARITHMETIC OF SAN MAGNOLIA</cite>
+          </blockquote>
+        </div>
+
+        <aside class="ledger reveal mono" id="ledger" aria-label="San Magnolia casualty ledger">
+          <div class="ledger-head"><span>OFFICIAL CASUALTY REPORT</span><span class="st">VERIFIED ✓</span></div>
+          <div class="ledger-rows">
+            <div><span>UNIT LOSSES</span><i></i><b class="zero">0</b></div>
+            <div><span>HUMAN LOSSES</span><i></i><b class="zero">0</b></div>
+            <div><span>PILOTS DEPLOYED</span><i></i><b class="zero">0</b></div>
+            <div><span>NAMES MOURNED</span><i></i><b class="zero">0</b></div>
+          </div>
+          <div class="ledger-foot"><span class="stamp">NO CASUALTIES</span><span class="truth">EXCEPT 576 SPEARHEAD SOULS</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ═════════ 02 · THE CHOIR ═════════ -->
+    <section class="act-choir" id="choir" aria-label="The gift of hearing the dead">
+      <p class="mov-kick mono"><b>MOVEMENT 02</b> · PARA-RAID RESONANCE · THE SENSE</p>
+      <h2 class="mov-title">Every machine on the field<br />is <em>screaming a name.</em><br />He answers all of them.</h2>
+
+      <div class="prose wide reveal">
+        <p class="lede">The Legion do not run on code. They run on human brains — harvested from soldiers, wired into steel, and marched back at their old friends.</p>
+        <p>So the Undertaker does not listen for engines. He closes his eyes and listens for <em>voices:</em> every crawling Ameise, every growling Löwe, carrying some seventeen-year-old still whispering <em>I'm here — I'm still here —</em> like a hand knocking on a door no one else can hear.</p>
+        <p>Shin hears every voice across three kilometers of screaming steel. He knows where each machine will move before it moves. And he knows exactly where to place the shell that lets its occupant finally sleep. <span class="quiet">The Republic logged his talent as a malfunction of an expendable unit. The dead logged it as their <em>only open door.</em></span></p>
+      </div>
+
+      <div class="choir-grid reveal">
+        <div class="radar" role="img" aria-label="Tactical radar of Shin's perception — hover the contacts to hear the Legion">
+          <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+          <div class="crossH"></div><div class="crossV"></div>
+          <div class="sweep" aria-hidden="true"></div>
+          <div class="blip" style="top:52%; left:52%"><span class="dot"></span><span class="lbl mono" style="color:var(--red)">UNDERTAKER</span></div>
+          <div class="blip" data-voice="“Where... is my squad...? It's so cold out here...”" data-unit="Ameise · Scout Type" data-dist="2.4 KM" style="top:26%; left:31%"><span class="dot"></span><span class="lbl mono">AMEISE</span></div>
+          <div class="blip" data-voice="“I don't want to die... please... I don't want to die yet...”" data-unit="Löwe · Tank Type" data-dist="3.1 KM" style="top:70%; left:66%"><span class="dot"></span><span class="lbl mono">LÖWE</span></div>
+          <div class="blip" data-voice="“Mama... I'm sorry... I'm sorry...”" data-unit="Grauwolf · Close-Combat Type" data-dist="1.8 KM" style="top:36%; left:74%"><span class="dot"></span><span class="lbl mono">GRAUWOLF</span></div>
+          <div class="blip" data-voice="“Still here... still here... still here... tell them... still...”" data-unit="Eintagsfliege · Swarm" data-dist="5.6 KM" style="top:20%; left:62%"><span class="dot"></span><span class="lbl mono">EINTAGSFLIEGE</span></div>
+          <div class="blip dead" data-voice="“Shin... Shin... I found you. I'll come and deliver your happiness...”" data-unit="SHEPHERD — HUMAN REMAINS: S. NOUZEN" data-dist="0.9 KM" style="top:62%; left:24%"><span class="dot"></span><span class="lbl mono red">SHEPHERD [REI]</span></div>
+        </div>
+
+        <div class="intercept mono" aria-live="polite">
+          <div class="intercept-head"><span>PARA-RAID INTERCEPT · LIVE</span><span class="live">● RESONATING</span></div>
+          <div class="intercept-body">
+            <div class="t-row"><span class="dim">CONTACT:</span><b id="itUnit">— HOVER A CONTACT —</b></div>
+            <div class="t-row"><span class="dim">RANGE:</span><b id="itDist">—</b></div>
+            <div class="t-voice">
+              <p id="itVoice">Every contact on this field was a person once. Sweep the radar. Hear what Shin hears.</p>
+              <small id="itFoot">LEGION NEURAL ECHOES · DECODED BY UNDERTAKER</small>
+            </div>
+          </div>
+          <div class="intercept-foot">TACTICAL NOTE: THE DEAD GUIDE HIS SHELLS TO THEIR OWN GRAVES.</div>
+        </div>
+      </div>
+
+      <div class="prose reveal" style="margin-top:clamp(48px,8vh,84px)">
+        <p>One voice never begs. It only says his name — patiently, time after time, from <em>his own side of the war.</em></p>
+        <p>That voice belongs to his brother, and it has been waiting five years to be answered.</p>
+      </div>
+    </section>
+
+    <!-- ═════════ 03 · THE BROTHER ═════════ -->
+    <section class="act-brother" id="brother" aria-label="Shourei Nouzen — the first voice">
+      <p class="mov-kick mono"><b>MOVEMENT 03</b> · THE FIRST VOICE · SHOUREI NOUZEN</p>
+      <h2 class="mov-title">The first voice he ever heard<br /><em>tried to kill him.</em></h2>
+
+      <div class="prose wide reveal">
+        <p class="lede">Before the war took everything else from Shin, it took the one person who loved him loud enough to leave a mark.</p>
+        <p>The scarf was Rei's gift, from the years when their family still had warmth in it. Everything the scarf hides is Rei's as well: on the worst night of Shin's childhood, war had hollowed his brother so completely that Rei's hands wrapped around his little brother's throat <em>and squeezed until the world went silent.</em></p>
+        <p>Shin survived. And out of that silence — from the far edge of death itself — something followed him back: a sense, a curse, a door left ajar. He can hear the dead. He has heard them, without one quiet night, ever since.</p>
+        <p>When Shourei finally fell, the Legion recovered the eldest son of House Nouzen intact. They wired what remained of him into a Shepherd — a command unit woven from a dead man's brain — and for five years, across every field of the Eastern Front, that thing walked ahead of his little brother, whispering through the static:</p>
+      </div>
+
+      <blockquote class="bro-quote reveal">
+        “Shin... Shin... I found you. I'll come and deliver <span>your happiness.</span>”
+        <cite class="mono">— THE SAME WORDS, EVERY NIGHT, FOR FIVE YEARS</cite>
+      </blockquote>
+
+      <div class="prose wide reveal">
+        <p>Every soldier who heard it told Shin to run from that voice. Shin did the opposite: he <em>held formation</em> — and waited, field after field, for the day the voice came close enough to be answered honestly.</p>
+        <p>The day came. The Undertaker put his barrel against the machine wearing his brother's remains like a borrowed coat — and performed the first burial of his life, with the last words of his childhood:</p>
+      </div>
+
+      <blockquote class="bro-quote reveal">
+        “You don't have to fight anymore, Rei. <span>Go to sleep.”</span>
+        <cite class="mono">— ONE SHOT · ONE RELEASE · ONE BROTHER FREE</cite>
+      </blockquote>
+    </section>
+
+    <!-- ═════════ 04 · THE BOX ═════════ -->
+    <section class="act-box" id="box" aria-label="The Undertaker's box — 576 names">
+      <p class="mov-kick mono"><b>MOVEMENT 04</b> · THE UNDERTAKER'S WORK · 576 NAMES</p>
+      <h2 class="mov-title">Funerals at gunpoint<br />are <em>still funerals.</em></h2>
+
+      <div class="box-grid">
+        <div class="prose reveal">
+          <p class="lede">When someone falls beside him, Shin has minutes before the Legion arrives — to harvest his friend's brain and march it back toward him as an enemy.</p>
+          <p>So the Undertaker performs three rites, in order, fast:</p>
+          <p><em>First</em> — the mercy round, into the wreck, before the harvest can begin. <em>Second</em> — the shard: a small rectangle of aluminum cut from the machine that carried them. <em>Third</em> — the carving: two names, pressed into metal with a knife. <span class="wound">The name they died with. The name they were born with.</span></p>
+          <p>Five hundred and seventy-six plates now rest in an old metal box he carries like a heartbeat. It is the only complete account of the Eighty-Sixth Sector's dead anywhere on earth — written by a boy, kept in a pocket, promised to flowers.</p>
+          <p class="quiet">The Republic keeps no graves. So he became one, and he walks.</p>
+        </div>
+
+        <div class="reveal">
+          <div class="tag-slot">
+            <div class="tag held" id="tagBox" aria-live="polite">
+              <span class="name" id="tagName">DRAW THE BOX</span>
+              <span class="call" id="tagCall">A SOUL WAITS INSIDE</span>
+              <span class="rule" aria-hidden="true"></span>
+              <span class="foot">EIGHTY-SIX · SPEARHEAD · REMEMBERED</span>
+            </div>
+          </div>
+          <button class="draw-btn mono" id="drawBtn" type="button">✛ DRAW A NAME FROM THE BOX</button>
+          <p class="draw-count mono">NAMES REMEMBERED — <b id="drawCount">0</b> / 576</p>
+          <p class="draw-note" id="drawNote">Each name was real. Each one sang.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ 05 · THE MARCH ═════════ -->
+    <section class="act-march" id="march" aria-label="The special reconnaissance mission">
+      <div class="march-portrait" aria-hidden="true"><img src="assets/shin_full_body.png" alt="" /></div>
+
+      <p class="mov-kick mono"><b>MOVEMENT 05</b> · THE SPECIAL RECONNAISSANCE MISSION</p>
+      <h2 class="mov-title">The order was a death sentence.<br />They read it as <em>directions.</em></h2>
+
+      <div class="prose wide reveal">
+        <p class="lede">After six years and hundreds of battles, the Republic finally acknowledged its finest soldier — by handing him a mission that could not be survived, issued to the one squadron that could not be replaced.</p>
+        <p><em>Special reconnaissance:</em> march east through Legion territory until all units are destroyed. Reinforcements — none. Return route — none. The state even billed them for their own coffins.</p>
+        <p>They read the paper twice, and for the first time in years, they smiled. It was an execution order — and also the first honest thing the Republic ever gave the Eighty-Six: <em>an exit.</em></p>
+      </div>
+
+      <div class="march-steps reveal">
+        <div class="step"><h3 class="mono">I · THE DEPARTURE</h3><p>They saluted the wall that had caged them, left one final correction in the national record — <em>casualties: all of the above</em> — and walked into the only country where everyone is equal: the country of the dead.</p></div>
+        <div class="step"><h3 class="mono">II · THE CARRYING</h3><p>Every improvised grave on the road east received its rites: the mercy round, the shard, the two carved names spoken aloud. The box grew heavier, and nobody once asked to carry it for him. <em>They understood the weight was the point.</em></p></div>
+        <div class="step"><h3 class="mono">III · THE FALL OF THE WALL</h3><p>Behind them, months later, the Legion broke through the Grand Mur and buried the Republic under the arithmetic it had always refused to count. The lie did not collapse. It was <em>invoiced.</em></p></div>
+        <div class="step"><h3 class="mono">IV · THE SILENCE</h3><p>And then one morning — impossibly — the screaming stopped. The Legion's chorus changed key. Ahead, past the last of the war, something was <em>blooming.</em></p></div>
+      </div>
+    </section>
+
+    <!-- ═════════ 06 · THE DESTINATION ═════════ -->
+    <section class="act-live" id="live" aria-label="The final destination">
+      <div class="dawn-wm" lang="ja" aria-hidden="true">生きろ — また会おう</div>
+
+      <p class="mov-kick mono"><b>MOVEMENT 06</b> · THE FINAL DESTINATION</p>
+      <h2 class="mov-title">The flowers kept<br /><em>their side of the promise.</em></h2>
+
+      <div class="live-grid">
+        <div class="prose reveal">
+          <p class="lede">On a hill at the edge of the world, where nothing should ever have grown, a sea of red spider lilies ran to the horizon — planted, petal by petal, by every soul the Eighty-Six had ever lost along this road.</p>
+          <p>In all his years of speaking for the dead, he had made the living exactly one request: <em>get to the destination, and bring flowers.</em> No one had ever managed it.</p>
+          <p>So he laid the box down where the red grew thickest — five hundred seventy-six names, delivered home by hand — and stood a long while in the warming light: a sixteen-year-old undertaker with no more burials to perform, and an entire sunrise to spend.</p>
+          <p class="wound">He made it. They made it. Both things are true at once — that is the whole miracle.</p>
+        </div>
+        <div class="reveal">
+          <img class="portrait-2nd" src="assets/shin_2nd_cour.png" alt="Shinei Nouzen after the march — alive" />
+        </div>
+      </div>
+
+      <div class="field reveal" id="field" role="img" aria-label="A field of red spider lilies — move your cursor across it">
+        <p class="quote-abs">“We're here. Every last one of us — to the final name.”</p>
+        <p class="hint mono">MOVE YOUR CURSOR — PETALS RISE FOR THE AWAKENED DEAD</p>
+        <canvas id="fieldCanvas"></canvas>
+      </div>
+
+      <div class="live-lines">
+        <p class="live-line mono reveal">THEY CALLED HIM THE REAPER, BECAUSE WHEREVER HE WALKED, THE DYING FINALLY GOT TO REST.</p>
+        <p class="live-line big reveal">THE TRUTH IS HEAVIER:<br />HE WAS THE <span>UNDERTAKER</span> —<br />AND NOT ONE OF THE 576 EVER WENT HOME UNNAMED.</p>
+      </div>
+
+      <div class="epitaph reveal">
+        <p class="e1">The dead do not speak.</p>
+        <p class="e2">SO THEIR UNDERTAKER SPEAKS — <b>BY NAME,</b> ALWAYS BY NAME.</p>
+        <p class="e3">He is alive. Not because the war spared him — because everyone he ever buried asked him to be.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═════════ FOOTER ═════════ -->
+  <footer>
+    <div class="foot-inner">
+      <div class="foot-mark">
+        <div class="foot-86" aria-hidden="true">86</div>
+        <img src="assets/shin_render.png" alt="Undertaker personal mark" />
+      </div>
+      <div class="foot-copy">
+        <p><em>“Thank you for listening to the end of the song.”</em></p>
+        <p class="legal mono">
+          86 —EIGHTY-SIX— © Asato Asato / Shirabii / ASCII Media Works / KADOKAWA / Project-86.<br />
+          “Voices of the Chord” composed by Hiroyuki Sawano. Published by Aniplex.<br />
+          Character render by NEBYU (NefertariBox, DeviantArt) — fan tribute, non-commercial.<br />
+          A requiem built with love for Shinei Nouzen and the 576.
+        </p>
+        <a class="back-top mono" href="#hero">↑ RETURN TO THE REQUIEM'S FIRST NOTE</a>
+      </div>
+      <div class="foot-names mono">
+        <span>SPEARHEAD // <b>061</b></span>
+        <span><b>SHINEI NOUZEN</b></span>
+        <span>UNDERTAKER · THE REAPER</span>
+        <span>FINAL DESTINATION — <b>REACHED</b></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  'use strict';
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── AUDIO ENGINE — Voices of the Chord ── */
+  const track = { title:'VOICES OF THE CHORD', artist:'Hiroyuki Sawano feat. Gemie', src:'assets/voices_of_the_chord.mp3' };
+  const audio = new Audio(track.src);
+  audio.loop = true; audio.volume = 0.8;
+  audio.addEventListener('error', () => { $('#trackArtist').textContent = 'TRACK FILE MISSING — PLACE assets/voices_of_the_chord.mp3'; });
+  let actx = null, analyser = null, specCtx = null, playing = false;
+
+  function initSpectrum(){
+    try{
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const src = actx.createMediaElementSource(audio);
+      analyser = actx.createAnalyser(); analyser.fftSize = 64;
+      src.connect(analyser); analyser.connect(actx.destination);
+      const cv = $('#spectrum'); specCtx = cv.getContext('2d');
+    }catch(e){ /* graphics are decoration; audio still plays */ }
+  }
+  function drawSpectrum(){
+    if(!analyser || !specCtx) return;
+    const w = 72, h = 24, bins = analyser.frequencyBinCount;
+    const data = new Uint8Array(bins); analyser.getByteFrequencyData(data);
+    specCtx.clearRect(0, 0, w, h);
+    const bars = 14, bw = w / bars;
+    for(let i = 0; i < bars; i++){
+      const v = data[i + 2] / 255;
+      const bh = Math.max(1.5, v * h);
+      specCtx.fillStyle = v > .55 ? '#ff334b' : 'rgba(122,138,168,.65)';
+      specCtx.fillRect(i * bw + 1, h - bh, bw - 2, bh);
+    }
+  }
+
+  function setPlaying(on){
+    playing = on;
+    $('#playBtn').textContent = on ? '⏸' : '▶';
+    if(on){ initSpectrum(); if(actx && actx.state === 'suspended') actx.resume(); audio.play().catch(()=>{}); }
+    else audio.pause();
+  }
+  function togglePlay(){ setPlaying(!playing); }
+
+  $('#gateBtn').addEventListener('click', () => {
+    $('#gate').classList.add('gone');
+    setPlaying(true);
+    startWhispers();
+  });
+  addEventListener('keydown', e => {
+    if(!$('#gate').classList.contains('gone') && e.code === 'Enter'){ $('#gateBtn').click(); }
+  });
+  $('#heroPlay').addEventListener('click', () => setPlaying(true));
+  $('#playBtn').addEventListener('click', togglePlay);
+  let muted = false;
+  $('#muteBtn').addEventListener('click', () => {
+    muted = !muted; audio.muted = muted;
+    $('#muteBtn').textContent = muted ? '♪̸' : '♪';
+    $('#muteBtn').style.color = muted ? '#5a6577' : '';
+  });
+  addEventListener('keydown', e => {
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if(e.code === 'Space'){ e.preventDefault(); togglePlay(); }
+  });
+
+  /* ── HERO QUOTE ROTATOR ── */
+  const quotes = [
+    ['“If, someday, we reach our final destination… would you leave some flowers there?”','— THE ONLY REQUEST HE EVER MADE OF THE LIVING'],
+    ['“I will carry you all to our final destination. That is my task.”','— THE VOW HE KEPT FOR 576 SOULS'],
+    ['“You don\u2019t have to fight anymore, Rei. Go to sleep.”','— THE FIRST AND ONLY BURIAL OF HIS BROTHER'],
+  ];
+  let qi = 0;
+  setInterval(() => {
+    const box = $('#heroQuote');
+    box.classList.add('fading');
+    setTimeout(() => {
+      qi = (qi + 1) % quotes.length;
+      $('#quoteText').textContent = quotes[qi][0];
+      $('#quoteCite').textContent = quotes[qi][1];
+      box.classList.remove('fading');
+    }, 620);
+  }, 5600);
+
+  /* ── RADAR INTERCEPT ── */
+  $$('.blip[data-voice]').forEach(b => {
+    const hear = () => {
+      $$('.blip').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      $('#itUnit').textContent = b.dataset.unit;
+      $('#itDist').textContent = b.dataset.dist;
+      $('#itVoice').textContent = b.dataset.voice;
+      $('#itFoot').textContent = 'LAST ECHO ON RECORD · LET THEM REST';
+    };
+    b.addEventListener('mouseenter', hear);
+    b.addEventListener('click', hear);
+  });
+
+  /* ── THE BOX — DRAW A NAME ── */
+  const names = [
+    'KAIE TANIYA','DAIYA IRMA','HARUTO KEATS','KUJO NIKO','LOUIE KINO','CHISE AUTHEN',
+    'TOUMA SAUVY','TOHZAN SASHA','LECCA LIN','MIKURI KAIROU','MINA SHIROKA','ALICE ARAISH',
+    'ISUKA','KARIYA ROHGA','SHURI GILITH','MATTHEW NANAKI','KUROTO HINIE','HARIZ SENYA',
+    'MYNA YATOMIKA','OCHI ANTON','RITA IPPLI','KANAN ABUKIIT','FIDO','SHEZARD CASEY'
+  ];
+  const lines = [
+    'She laughed the day before. The shard remembers her voice, not just her name.',
+    'He asked for the flowers once. The shard keeps the promise now.',
+    'Sixteen forever. The carving says the age; the box says the boy.',
+    'His last words were a joke. The knife pressed them in laughing.',
+    'She held formation to the final second. The shard is shaped like courage.',
+    'He was born on a spring day. He was born again here, in steel.',
+  ];
+  let drawn = 0, pool = [...names];
+  $('#drawBtn').addEventListener('click', () => {
+    const tag = $('#tagBox');
+    tag.classList.add('swap');
+    setTimeout(() => {
+      if(!pool.length) pool = [...names];
+      const i = Math.floor(Math.random() * pool.length);
+      const name = pool.splice(i, 1)[0];
+      drawn = Math.min(drawn + 1, 576);
+      $('#tagName').textContent = name;
+      $('#tagCall').textContent = 'EIGHTY-SIX · FALLEN IN GOOD ORDER';
+      $('#drawCount').textContent = drawn;
+      $('#drawNote').textContent = lines[Math.floor(Math.random() * lines.length)];
+      tag.classList.remove('swap');
+      tag.classList.remove('held'); void tag.offsetWidth; tag.classList.add('held');
+    }, 300);
+  });
+
+  /* ── WHISPERS OF THE DEAD ── */
+  const phrases = [
+    'so cold…','flowers…, please…','still here…','don\u2019t forget us…','see you there…',
+    'home…','mama…','i\u2019m sorry…','shin… shin…','thank you…','it hurts…','we made it…',
+    'don\u2019t cry…','carry me…','sleep now…','alive… be…'
+  ];
+  let whispersOn = false, whisperTimer = null;
+  function spawnWhisper(){
+    if(!whispersOn) return;
+    const layer = $('#whisperLayer');
+    if(layer.children.length > 6) layer.firstChild.remove();
+    const el = document.createElement('span');
+    el.className = 'whisper';
+    el.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+    el.style.left = 8 + Math.random() * 74 + '%';
+    el.style.top = 55 + Math.random() * 38 + '%';
+    layer.appendChild(el);
+    setTimeout(() => el.remove(), 11500);
+    whisperTimer = setTimeout(spawnWhisper, 2200 + Math.random() * 3000);
+  }
+  function startWhispers(){
+    whispersOn = true;
+    $('#whisperState').textContent = 'ON';
+    $('#whisperToggle').classList.add('on');
+    spawnWhisper();
+  }
+  $('#whisperToggle').addEventListener('click', () => {
+    if(whispersOn){
+      whispersOn = false;
+      clearTimeout(whisperTimer);
+      $('#whisperState').textContent = 'OFF';
+      $('#whisperToggle').classList.remove('on');
+      $('#whisperLayer').innerHTML = '';
+    } else startWhispers();
+  });
+
+  /* ── PETAL / ASH CANVAS ── */
+  const cv = $('#chordCanvas'), cx = cv.getContext('2d');
+  let W = 0, H = 0, petals = [];
+  function resize(){ W = cv.width = innerWidth; H = cv.height = innerHeight; }
+  resize(); addEventListener('resize', resize);
+  function petal(mood){
+    const crimson = mood === 'red' ? Math.random() < .8 : Math.random() < .22;
+    return {
+      x: Math.random() * W, y: -20,
+      s: 3 + Math.random() * 5, vy: .5 + Math.random() * 1.1, vx: Math.sin(Math.random() * 6) * .4,
+      r: Math.random() * Math.PI * 2, vr: (Math.random() - .5) * .04,
+      crimson, a: .25 + Math.random() * .4,
+    };
+  }
+  function tickCanvas(mood){
+    cx.clearRect(0, 0, W, H);
+    if(!reduced){
+      const cap = mood === 'light' || mood === 'ember' ? 60 : 34;
+      if(petals.length < cap) petals.push(petal(mood));
+      petals = petals.filter(p => p.y < H + 30);
+      for(const p of petals){
+        p.y += p.vy; p.x += p.vx; p.r += p.vr;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r);
+        cx.fillStyle = p.crimson ? `rgba(255,51,75,${p.a})` : `rgba(150,162,180,${p.a * .6})`;
+        cx.beginPath(); cx.ellipse(0, 0, p.s, p.s * .45, 0, 0, Math.PI * 2); cx.fill();
+        cx.restore();
+      }
+    }
+  }
+
+  /* ── FLOWER FIELD INTERACTION ── */
+  const field = $('#field'), fcv = $('#fieldCanvas');
+  if(field){
+    const fx = fcv.getContext('2d');
+    let sparks = [], fW = 0, fH = 0;
+    function fResize(){ const r = field.getBoundingClientRect(); fW = fcv.width = r.width; fH = fcv.height = r.height; }
+    fResize(); addEventListener('resize', fResize);
+    field.addEventListener('pointermove', e => {
+      const r = field.getBoundingClientRect();
+      for(let k = 0; k < 3; k++){
+        sparks.push({ x: e.clientX - r.left, y: e.clientY - r.top,
+          vx: (Math.random() - .5) * 2.4, vy: -1.2 - Math.random() * 2.2,
+          life: 1, s: 2 + Math.random() * 4 });
+      }
+      if(sparks.length > 220) sparks.splice(0, sparks.length - 220);
+    });
+    (function fieldLoop(){
+      fx.clearRect(0, 0, fW, fH);
+      sparks = sparks.filter(s => s.life > 0);
+      for(const s of sparks){
+        s.x += s.vx; s.y += s.vy; s.vy += .03; s.life -= .014;
+        fx.fillStyle = `rgba(255,80,90,${s.life * .8})`;
+        fx.beginPath(); fx.ellipse(s.x, s.y, s.s, s.s * .5, Math.PI / 4, 0, Math.PI * 2); fx.fill();
+      }
+      requestAnimationFrame(fieldLoop);
+    })();
+  }
+
+  /* ── MAIN RENDER LOOP ── */
+  let currentMood = 'ash';
+  (function loop(){
+    drawSpectrum();
+    tickCanvas(currentMood);
+    requestAnimationFrame(loop);
+  })();
+
+  /* ── SCROLL SYSTEMS ── */
+  const bar = $('#progressBar');
+  addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = (scrollY / Math.max(max, 1)) * 100 + '%';
+  }, { passive: true });
+
+  const revealIO = new IntersectionObserver(entries => {
+    for(const en of entries){
+      if(!en.isIntersecting) continue;
+      en.target.classList.add('vis');
+      if(en.target.id === 'ledger') en.target.classList.add('burned');
+      revealIO.unobserve(en.target);
+    }
+  }, { threshold: .18 });
+  $$('.reveal').forEach(el => revealIO.observe(el));
+
+  const railLinks = $$('.rail a');
+  const sectionIO = new IntersectionObserver(entries => {
+    for(const en of entries){
+      if(!en.isIntersecting) continue;
+      const id = en.target.id;
+      railLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      const mood = { hero:'ash', lie:'ash', choir:'red', brother:'red', box:'ember', march:'ember', live:'light' }[id];
+      if(mood) currentMood = mood;
+    }
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  $$('main section').forEach(s => sectionIO.observe(s));
+  </script>
+</body>
+</html>

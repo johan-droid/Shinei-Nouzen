@@ -1,0 +1,5 @@
+# local dev / qa artifacts
+.playwright-mcp/
+*.log
+.vercel/
+.DS_Store
